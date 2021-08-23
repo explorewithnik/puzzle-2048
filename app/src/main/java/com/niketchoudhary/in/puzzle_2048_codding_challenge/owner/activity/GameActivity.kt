@@ -12,4 +12,10 @@ class GameActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
     }
+
+    companion object{
+        var mRewardDeletes = 2
+        // delete selection:
+        var mRewardDeletingSelectionAmounts = 3
+    }
 }
