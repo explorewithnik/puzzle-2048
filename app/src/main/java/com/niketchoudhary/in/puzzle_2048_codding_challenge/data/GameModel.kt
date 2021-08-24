@@ -235,7 +235,7 @@ class GameModel(private val mContext: Context, view: GameView) {
             addRandomTile()
             checkLose()
         }
-        mView.resyncTime()
+        mView.reSyncTime()
         mView.invalidate()
     }
 
@@ -260,7 +260,7 @@ class GameModel(private val mContext: Context, view: GameView) {
         gameState = GAME_NORMAL
         addStartTiles()
         mView.refreshLastTime = true
-        mView.resyncTime()
+        mView.reSyncTime()
         mView.invalidate()
     }
 
