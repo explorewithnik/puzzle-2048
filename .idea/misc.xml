@@ -5,6 +5,17 @@
       <map>
         <entry key="app/src/main/res/drawable/background_rectangle.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/cell_rectangle.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_1024.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_128.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_16.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_2.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_2048.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_256.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_32.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_4.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_512.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_64.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/drawable/cell_rectangle_8.xml" value="0.14166666666666666" />
         <entry key="app/src/main/res/drawable/fade_rectangle.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/light_up_rectangle.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />

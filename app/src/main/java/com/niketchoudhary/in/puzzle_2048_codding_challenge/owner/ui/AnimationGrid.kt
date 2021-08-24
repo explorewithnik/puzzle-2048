@@ -3,10 +3,18 @@ package com.niketchoudhary.`in`.puzzle_2048_codding_challenge.owner.ui
 import java.util.ArrayList
 
 class AnimationGrid(x: Int, y: Int) {
+    val globalAnimation: ArrayList<AnimationCell> = ArrayList<AnimationCell>()
     var field: Array<Array<ArrayList<AnimationCell>?>> = Array(x) {
         arrayOfNulls(y)
     }
-    val globalAnimation: ArrayList<AnimationCell> = ArrayList<AnimationCell>()
+
+    init {
+        for (xx in 0 until x) {
+            for (yy in 0 until y) {
+                field[xx][yy] = ArrayList<AnimationCell>()
+            }
+        }
+    }
 
     private var activeAnimations = 0
     private var oneMoreFrame = false

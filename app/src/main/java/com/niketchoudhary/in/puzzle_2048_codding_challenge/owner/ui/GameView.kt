@@ -205,67 +205,71 @@ class GameView : View {
                     val index = log2(value)
 
                     //Check for any active animations
-                    val aArray: ArrayList<AnimationCell> = game.aGrid?.getAnimationCell(xx, yy)!!
+                    val aArray: ArrayList<AnimationCell>? = game.aGrid?.getAnimationCell(xx, yy)
                     var animated = false
-                    for (i in aArray.indices.reversed()) {
-                        val aCell: AnimationCell = aArray[i]
-                        //If this animation is not active, skip it
-                        if (aCell.getAnimationType() == GameModel.SPAWN_ANIMATION) animated = true
-                        if (!aCell.isActive()) continue
-                        when {
-                            aCell.getAnimationType() == GameModel.SPAWN_ANIMATION // Spawning animation
-                            -> {
-                                val percentDone: Double = aCell.getPercentageDone()
-                                val textScaleSize = percentDone.toFloat()
-                                paint.textSize = textSize * textScaleSize
-                                val cellScaleSize = cellSize / 2 * (1 - textScaleSize)
-                                bitmapCell[index]!!.setBounds(
-                                    (sX + cellScaleSize).toInt(),
-                                    (sY + cellScaleSize).toInt(),
-                                    (eX - cellScaleSize).toInt(),
-                                    (eY - cellScaleSize).toInt()
-                                )
-                                bitmapCell[index]!!.draw(canvas)
+                    Log.e("aArray","$aArray")
+                    aArray?.let {
+                        for (i in aArray.indices.reversed()) {
+                            val aCell: AnimationCell = aArray[i]
+                            //If this animation is not active, skip it
+                            if (aCell.getAnimationType() == GameModel.SPAWN_ANIMATION) animated = true
+                            if (!aCell.isActive()) continue
+                            when {
+                                aCell.getAnimationType() == GameModel.SPAWN_ANIMATION // Spawning animation
+                                -> {
+                                    val percentDone: Double = aCell.getPercentageDone()
+                                    val textScaleSize = percentDone.toFloat()
+                                    paint.textSize = textSize * textScaleSize
+                                    val cellScaleSize = cellSize / 2 * (1 - textScaleSize)
+                                    bitmapCell[index]!!.setBounds(
+                                        (sX + cellScaleSize).toInt(),
+                                        (sY + cellScaleSize).toInt(),
+                                        (eX - cellScaleSize).toInt(),
+                                        (eY - cellScaleSize).toInt()
+                                    )
+                                    bitmapCell[index]!!.draw(canvas)
+                                }
+                                aCell.getAnimationType() == GameModel.MERGE_ANIMATION // Merging Animation
+                                -> {
+                                    val percentDone: Double = aCell.getPercentageDone()
+                                    val textScaleSize =
+                                        (1 + INITIAL_VELOCITY * percentDone + MERGING_ACCELERATION * percentDone * percentDone / 2).toFloat()
+                                    paint.textSize = textSize * textScaleSize
+                                    val cellScaleSize = cellSize / 2 * (1 - textScaleSize)
+                                    bitmapCell[index]!!.setBounds(
+                                        (sX + cellScaleSize).toInt(),
+                                        (sY + cellScaleSize).toInt(),
+                                        (eX - cellScaleSize).toInt(),
+                                        (eY - cellScaleSize).toInt()
+                                    )
+                                    bitmapCell[index]!!.draw(canvas)
+                                }
+                                aCell.getAnimationType() == GameModel.MOVE_ANIMATION // Moving animation
+                                -> {
+                                    val percentDone: Double = aCell.getPercentageDone()
+                                    var tempIndex = index
+                                    if (aArray.size >= 2) tempIndex -= 1
+                                    val previousX: Int? = aCell.extras?.get(0)
+                                    val previousY: Int? = aCell.extras?.get(1)
+                                    val currentX: Int = currentTile.getX()!!
+                                    val currentY: Int = currentTile.getY()!!
+                                    val dX =
+                                        ((currentX - previousX!!) * (cellSize + gridWidth) * (percentDone - 1) * 1.0).toInt()
+                                    val dY =
+                                        ((currentY - previousY!!) * (cellSize + gridWidth) * (percentDone - 1) * 1.0).toInt()
+                                    bitmapCell[tempIndex]!!.setBounds(
+                                        sX + dX,
+                                        sY + dY,
+                                        eX + dX,
+                                        eY + dY
+                                    )
+                                    bitmapCell[tempIndex]!!.draw(canvas)
+                                }
                             }
-                            aCell.getAnimationType() == GameModel.MERGE_ANIMATION // Merging Animation
-                            -> {
-                                val percentDone: Double = aCell.getPercentageDone()
-                                val textScaleSize =
-                                    (1 + INITIAL_VELOCITY * percentDone + MERGING_ACCELERATION * percentDone * percentDone / 2).toFloat()
-                                paint.textSize = textSize * textScaleSize
-                                val cellScaleSize = cellSize / 2 * (1 - textScaleSize)
-                                bitmapCell[index]!!.setBounds(
-                                    (sX + cellScaleSize).toInt(),
-                                    (sY + cellScaleSize).toInt(),
-                                    (eX - cellScaleSize).toInt(),
-                                    (eY - cellScaleSize).toInt()
-                                )
-                                bitmapCell[index]!!.draw(canvas)
-                            }
-                            aCell.getAnimationType() == GameModel.MOVE_ANIMATION // Moving animation
-                            -> {
-                                val percentDone: Double = aCell.getPercentageDone()
-                                var tempIndex = index
-                                if (aArray.size >= 2) tempIndex -= 1
-                                val previousX: Int? = aCell.extras?.get(0)
-                                val previousY: Int? = aCell.extras?.get(1)
-                                val currentX: Int = currentTile.getX()!!
-                                val currentY: Int = currentTile.getY()!!
-                                val dX =
-                                    ((currentX - previousX!!) * (cellSize + gridWidth) * (percentDone - 1) * 1.0).toInt()
-                                val dY =
-                                    ((currentY - previousY!!) * (cellSize + gridWidth) * (percentDone - 1) * 1.0).toInt()
-                                bitmapCell[tempIndex]!!.setBounds(
-                                    sX + dX,
-                                    sY + dY,
-                                    eX + dX,
-                                    eY + dY
-                                )
-                                bitmapCell[tempIndex]!!.draw(canvas)
-                            }
+                            animated = true
                         }
-                        animated = true
                     }
+
 
                     //No active animations? Just draw the cell
                     if (!animated) {
