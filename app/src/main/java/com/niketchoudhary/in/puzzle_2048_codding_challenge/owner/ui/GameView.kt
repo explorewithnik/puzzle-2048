@@ -21,6 +21,10 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 
+/*
+* A custom view class that is responsible to draw the views and grid board along with scores and new game option
+*
+* */
 class GameView : View {
 
     private val numCellTypes = 21
@@ -88,9 +92,9 @@ class GameView : View {
         game = GameModel(context, this)
         try {
             //Getting assets
-            backgroundRectangle = getDrawable(context,R.drawable.background_rectangle)
-            lightUpRectangle = getDrawable(context,R.drawable.light_up_rectangle)
-            fadeRectangle = getDrawable(context,R.drawable.fade_rectangle)
+            backgroundRectangle = getDrawable(context, R.drawable.background_rectangle)
+            lightUpRectangle = getDrawable(context, R.drawable.light_up_rectangle)
+            fadeRectangle = getDrawable(context, R.drawable.fade_rectangle)
             setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground))
             val font = Typeface.createFromAsset(resources.assets, "ClearSans-Bold.ttf")
             paint.typeface = font
@@ -109,9 +113,9 @@ class GameView : View {
         game = GameModel(context, this)
         try {
             //Getting assets
-            backgroundRectangle = getDrawable(context,R.drawable.background_rectangle)
-            lightUpRectangle = getDrawable(context,R.drawable.light_up_rectangle)
-            fadeRectangle = getDrawable(context,R.drawable.fade_rectangle)
+            backgroundRectangle = getDrawable(context, R.drawable.background_rectangle)
+            lightUpRectangle = getDrawable(context, R.drawable.light_up_rectangle)
+            fadeRectangle = getDrawable(context, R.drawable.fade_rectangle)
             setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground))
             val font = Typeface.createFromAsset(resources.assets, "ClearSans-Bold.ttf")
             paint.typeface = font
@@ -148,7 +152,7 @@ class GameView : View {
         backgroundRectangle!!.setBounds(sXHighScore, sYAll, eXHighScore, eYAll)
         backgroundRectangle!!.draw(canvas)
         paint.textSize = titleTextSize
-        paint.color = ContextCompat.getColor(context,R.color.text_brown)
+        paint.color = ContextCompat.getColor(context, R.color.text_brown)
         canvas.drawText(
             resources.getString(R.string.high_score),
             (sXHighScore + textMiddleHighScore).toFloat(),
@@ -168,7 +172,7 @@ class GameView : View {
         backgroundRectangle?.setBounds(sXScore, sYAll, eXScore, eYAll)
         backgroundRectangle?.draw(canvas)
         paint.textSize = titleTextSize
-        paint.color = ContextCompat.getColor(context,R.color.text_brown)
+        paint.color = ContextCompat.getColor(context, R.color.text_brown)
         canvas.drawText(
             resources.getString(R.string.score),
             (sXScore + textMiddleScore).toFloat(),
@@ -176,7 +180,7 @@ class GameView : View {
             paint
         )
         paint.textSize = bodyTextSize
-        paint.color = ContextCompat.getColor(context,R.color.text_white)
+        paint.color = ContextCompat.getColor(context, R.color.text_white)
         canvas.drawText(
             game.score.toString(),
             (sXScore + textMiddleScore).toFloat(),
@@ -207,12 +211,13 @@ class GameView : View {
                     //Check for any active animations
                     val aArray: ArrayList<AnimationCell>? = game.aGrid?.getAnimationCell(xx, yy)
                     var animated = false
-                    Log.e("aArray","$aArray")
+                    Log.e("aArray", "$aArray")
                     aArray?.let {
                         for (i in aArray.indices.reversed()) {
                             val aCell: AnimationCell = aArray[i]
                             //If this animation is not active, skip it
-                            if (aCell.getAnimationType() == GameModel.SPAWN_ANIMATION) animated = true
+                            if (aCell.getAnimationType() == GameModel.SPAWN_ANIMATION) animated =
+                                true
                             if (!aCell.isActive()) continue
                             when {
                                 aCell.getAnimationType() == GameModel.SPAWN_ANIMATION // Spawning animation
@@ -340,7 +345,7 @@ class GameView : View {
             sYIcons + iconSize
         )
         drawDrawable(
-            canvas, getDrawable(context,R.drawable.ic_action_refresh),
+            canvas, getDrawable(context, R.drawable.ic_action_refresh),
             sXNewGame + iconPaddingSize,
             sYIcons + iconPaddingSize,
             sXNewGame + iconSize - iconPaddingSize,
@@ -368,7 +373,7 @@ class GameView : View {
         // checking game over here
         if (!game.isActive) {
             drawEndGameState(canvas)
-            if (game.aGrid?.isAnimationActive()==false) drawGameOverButtons(canvas)
+            if (game.aGrid?.isAnimationActive() == false) drawGameOverButtons(canvas)
         }
 
         //Refresh the screen if there is still an animation running
@@ -490,7 +495,14 @@ class GameView : View {
             paint.textSize = tempTextSize
             val bitmap = Bitmap.createBitmap(cellSize, cellSize, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
-            drawDrawable(canvas, getDrawable(context,cellRectangleIds[xx]), 0, 0, cellSize, cellSize)
+            drawDrawable(
+                canvas,
+                getDrawable(context, cellRectangleIds[xx]),
+                0,
+                0,
+                cellSize,
+                cellSize
+            )
             drawCellText(canvas, value)
             bitmapCell[xx] = BitmapDrawable(resources, bitmap)
         }
@@ -517,7 +529,7 @@ class GameView : View {
     //Renders the set of 16 background squares.
     private fun drawBackgroundGrid(canvas: Canvas) {
         val rows = 4
-        val backgroundCell = getDrawable(context,R.drawable.cell_rectangle)
+        val backgroundCell = getDrawable(context, R.drawable.cell_rectangle)
         // Outputting the game grid
         for (xx in 0 until rows) for (yy in 0 until rows) {
             val sX = startingX + gridWidth + (cellSize + gridWidth) * xx

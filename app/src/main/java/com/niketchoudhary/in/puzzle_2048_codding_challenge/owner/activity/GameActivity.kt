@@ -49,11 +49,4 @@ class GameActivity : AppCompatActivity() {
             else -> return super.onKeyDown(keyCode, event)
         }
     }
-
-    companion object {
-        var mRewardDeletes = 2
-
-        // delete selection:
-        var mRewardDeletingSelectionAmounts = 3
-    }
 }

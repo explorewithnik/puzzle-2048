@@ -1,21 +1,21 @@
 package com.niketchoudhary.`in`.puzzle_2048_codding_challenge.data
 
 import android.content.Context
-import android.preference.PreferenceManager
+import android.content.Context.MODE_PRIVATE
 import com.niketchoudhary.`in`.puzzle_2048_codding_challenge.owner.ui.*
 import java.util.*
 
+/*
+* A class that holds the data related to game
+*
+* */
 class GameModel(private val mContext: Context, view: GameView) {
     var gameState = GAME_NORMAL
-    var lastGameState = GAME_NORMAL
-    private var bufferGameState = GAME_NORMAL
     private val mView: GameView = view
     var grid: Grid? = null
     var aGrid: AnimationGrid? = null
-    var canUndo = false
     var score: Long = 0
     var mHighScore: Long = 0
-    var lastScore: Long = 0
 
     val isActive: Boolean
         get() = !(gameWon() || gameLost())
@@ -91,7 +91,7 @@ class GameModel(private val mContext: Context, view: GameView) {
 
     private fun recordHighScore() {
         val rows = 4
-        val settings = PreferenceManager.getDefaultSharedPreferences(mContext)
+        val settings = mContext.getSharedPreferences("4028", MODE_PRIVATE)
         val editor = settings.edit()
         editor.putLong(HIGH_SCORE + rows, mHighScore)
         editor.apply()
@@ -241,7 +241,7 @@ class GameModel(private val mContext: Context, view: GameView) {
 
     private fun getHighScore(): Long {
         val rows = 4
-        val settings = PreferenceManager.getDefaultSharedPreferences(mContext)
+        val settings = mContext.getSharedPreferences("4028", MODE_PRIVATE)
         return settings.getLong(HIGH_SCORE + rows, -1)
     }
 
@@ -269,7 +269,7 @@ class GameModel(private val mContext: Context, view: GameView) {
         for (xx in 0 until startTiles) addRandomTile()
     }
 
-    companion object{
+    companion object {
         //Odd state = game is not active
         //Even state = game is active
         //Win state = active state + 1

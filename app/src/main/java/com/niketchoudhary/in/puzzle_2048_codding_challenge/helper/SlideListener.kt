@@ -4,12 +4,11 @@ import android.app.AlertDialog
 import android.view.MotionEvent
 import android.view.View
 import com.niketchoudhary.`in`.puzzle_2048_codding_challenge.R
-import com.niketchoudhary.`in`.puzzle_2048_codding_challenge.owner.activity.GameActivity
 import com.niketchoudhary.`in`.puzzle_2048_codding_challenge.owner.ui.GameView
 import kotlin.math.abs
 
 /*
-* A custom class that will use the functionality of View's OnTouchListener
+* A custom View.OnTouchListener class that will use the functionality of View's OnTouchListener
 * to detect the user slide actions or arrow keys action perform
 *
 * */
@@ -143,10 +142,7 @@ class SlideListener (view: GameView?): View.OnTouchListener {
                             .setPositiveButton(
                                 R.string.reset
                             ) { _, _ -> // reset rewards again:
-                                GameActivity.mRewardDeletes = 2
-                                GameActivity.mRewardDeletingSelectionAmounts = 3
                                 mView?.game?.newGame()
-                                mView?.game?.canUndo = false
                             }
                             .setNegativeButton(R.string.continue_game, null)
                             .setTitle(R.string.reset_dialog_title)
